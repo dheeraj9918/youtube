@@ -5,7 +5,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
-
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -68,3 +67,19 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### Debouncing
+
+typing slow = 200ms
+typing fast = 150ms
+
+Performance:
+-if Search(iphone max Pro)= 14 letter *1000(people at a time search) = 14000 (time api call)
+-with Debouncing  if Search(iphone max Pro) = 3Api call * 1000(people at a time) =3000 times api call
+
+Debouncing with 200ms
+-if different between two key press is <200ms -decline the api call
+-if key press is > 200ms to make the API call
+
+
+(means when the key press time different between two key press is less than 200ms then the api call is decline and when the key press is greater than 200ms then the api call this concept is known is Debouncing )
