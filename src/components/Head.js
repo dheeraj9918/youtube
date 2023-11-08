@@ -1,7 +1,8 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { useEffect, useState } from "react";
 import { YOUTUBE_SUGGESTION_API } from "../utils/constant";
+import { cacheResult } from "../utils/searchSlice";
 
 
 
@@ -10,9 +11,17 @@ const Head = () => {
     const [suggesitions, setSuggesitions] = useState([]);
     const [showSeggesitions, setShowSeggesitions] = useState(false);
 
-    useEffect(() => {
-        const timer = setTimeout(() => getSearchSuggestionsApi(), 200);
+    const searchCashes = useSelector(store => store.search);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (searchCashes[searchQuery]) {
+                setSuggesitions(searchCashes[searchQuery]);
+            }
+            else {
+                getSearchSuggestionsApi();
+            }
+        }, 200);
         return () => {
             clearTimeout(timer);
         }
@@ -21,8 +30,14 @@ const Head = () => {
     const getSearchSuggestionsApi = async () => {
         const data = await fetch(YOUTUBE_SUGGESTION_API + searchQuery);
         const json = await data.json();
-        console.log(json);
+        // console.log(json);
         setSuggesitions(json[1]);
+        dispatch(
+            cacheResult({
+                [searchQuery]:json[1],
+            })
+        )
+
     }
 
     //this dispatch function is for hamburger;
@@ -53,8 +68,8 @@ const Head = () => {
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        onFocus={()=>setShowSeggesitions(true)}
-                        onBlur={()=>setShowSeggesitions(false)}
+                        onFocus={() => setShowSeggesitions(true)}
+                        onBlur={() => setShowSeggesitions(false)}
                     />
                     <button className='border border-gray-600 border-l-transparent p-2 rounded-r-full bg-gray-100'>Search</button>
                 </div>

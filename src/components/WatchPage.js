@@ -1,26 +1,41 @@
 
-import React, {useEffect}from 'react'
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { closeMenu } from '../utils/appSlice';
 import { useSearchParams } from 'react-router-dom';
+import CommentContainer from './CommentContainer';
+import LiveChat from './LiveChat';
 
 const WatchPage = () => {
-     const [searchParems]= useSearchParams("v");
-     console.log(searchParems.get("v"))
-
+  const [searchParams] = useSearchParams("v");
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(closeMenu());
-  })
+  }, [dispatch]);
+
   return (
-    <div className='p-5 '>
-      <iframe className='rounded-lg' width="900" height="500" 
-      src={"https://www.youtube.com/embed/"+ searchParems.get("v")}
-      title="YouTube video player" 
-      frameBorder="0" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+    <div className='flex flex-col w-full'>
+      <div className='px-5 flex'>
+        <div className=''>
+          <iframe
+            className='rounded-lg'
+            width="1200"
+            height="600"
+            src={`https://www.youtube.com/embed/${searchParams.get("v")}`}
+            title='YouTube video player'
+            frameBorder='0'
+            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+            allowFullScreen
+          ></iframe>
+        </div>
+        <div className='w-full'>
+          <LiveChat />
+        </div>
+      </div>
+      <CommentContainer />
     </div>
-  )
-}
+  );
+};
 
 export default WatchPage;
