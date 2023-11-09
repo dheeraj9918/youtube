@@ -44,7 +44,7 @@ const Head = () => {
     <div className="grid grid-flow-col p-4 m-2 shadow-md">
       <div className="flex col-span-1">
         <img
-          onClick={toggleHandlerMenu()}
+          onClick={toggleHandlerMenu}
           className="h-8 mx-5 cursor-pointer"
           alt="menu"
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/2048px-Hamburger_icon.svg.png"
